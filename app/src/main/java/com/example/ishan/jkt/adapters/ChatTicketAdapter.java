@@ -1,5 +1,6 @@
 package com.example.ishan.jkt.adapters;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -57,9 +58,15 @@ public class ChatTicketAdapter extends RecyclerView.Adapter<ChatTicketAdapter.my
         holder.comment.setText(comment.getComment());
         holder.date.setText(comment.getDate());
 
-        if(comment.getSender().equals("Me")){
+        String sender = comment.getSender().trim();
+
+        if(sender.equals("Me")){
             cv.setCardBackgroundColor(Color.parseColor("#F0F4C3"));
             ll.setGravity(Gravity.RIGHT);
+        }
+        else{
+            cv.setCardBackgroundColor(Color.parseColor("#B2EBF2"));
+            ll.setGravity(Gravity.LEFT);
         }
     }
 

@@ -1,9 +1,11 @@
 package com.example.ishan.jkt.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -51,14 +53,34 @@ public class UpdateTicket extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String date_time = df.format(c.getTime());
+        heading = subject_et.getText().toString();
+        message = message_et.getText().toString();
+        final AlertDialog.Builder alert_dialog = new AlertDialog.Builder(this);
+        alert_dialog.setTitle("Unable to Create Ticket");
+        alert_dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        if(heading.isEmpty()){
+            alert_dialog.setMessage("Please Enter Subject!");
+            alert_dialog.show();
+        }
+        else if(message.isEmpty()){
+            alert_dialog.setMessage("Please Enter Message!");
+            alert_dialog.show();
+        }
+        else {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            String date_time = df.format(c.getTime());
 
-        DatabaseReference ref = fb_database.getReference().child("tickets").child(key);
-        ref.child("message").setValue(message_et.getText().toString());
-        ref.child("heading").setValue(subject_et.getText().toString());
-        ref.child("update_date_time").setValue(date_time);
-        finish();
+            DatabaseReference ref = fb_database.getReference().child("tickets").child(key);
+            ref.child("message").setValue(message);
+            ref.child("heading").setValue(heading);
+            ref.child("update_date_time").setValue(date_time);
+            finish();
+        }
     }
 }

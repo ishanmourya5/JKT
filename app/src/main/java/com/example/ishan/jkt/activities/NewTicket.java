@@ -1,9 +1,11 @@
 package com.example.ishan.jkt.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,14 +65,41 @@ public class NewTicket extends AppCompatActivity implements View.OnClickListener
         priority = priority_sp.getSelectedItem().toString();
         username = shared_pref.getString("name",null);
         userid = shared_pref.getString("userid",null);
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        date_time = df.format(c.getTime());
 
-        Ticket t = new Ticket(subject, priority, status, date_time, message, department, username, userid, date_time);
-        DatabaseReference ref = fb_database.getReference().child("tickets");
-        ref.push().setValue(t);
-        finish();
+        final AlertDialog.Builder alert_dialog = new AlertDialog.Builder(this);
+        alert_dialog.setTitle("Unable to Create Ticket");
+        alert_dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        if(subject.isEmpty()){
+            alert_dialog.setMessage("Please Enter Subject!");
+            alert_dialog.show();
+        }
+        else if(department.equals("Select Department")){
+            alert_dialog.setMessage("Please select a Department!");
+            alert_dialog.show();
+        }
+        else if(priority.equals("Select Priority")){
+            alert_dialog.setMessage("Please select a Priority!");
+            alert_dialog.show();
+        }
+        else if(message.isEmpty()){
+            alert_dialog.setMessage("Please Enter Message!");
+            alert_dialog.show();
+        }
+        else {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            date_time = df.format(c.getTime());
+
+            Ticket t = new Ticket(subject, priority, status, date_time, message, department, username, userid, date_time);
+            DatabaseReference ref = fb_database.getReference().child("tickets");
+            ref.push().setValue(t);
+            finish();
+        }
     }
 
     @Override

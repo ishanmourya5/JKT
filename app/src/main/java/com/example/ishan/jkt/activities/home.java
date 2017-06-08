@@ -80,23 +80,25 @@ public class home extends AppCompatActivity implements View.OnClickListener{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         username_tv.setText(shared_pref.getString("name", null));
         designation_tv.setText(shared_pref.getString("designation", null));
-        String pic_string = shared_pref.getString("pic",null);
-        if(pic_string != null) {
+        String pic_string = shared_pref.getString("pic", null);
+        if (pic_string != null) {
             byte[] imageBytes = Base64.decode(pic_string, Base64.DEFAULT);
             Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             profile_image.setImageBitmap(decodedImage);
         }
+        update_list();
+    }
+    public void update_list(){
 
-        final ProgressDialog progress_dialog = new ProgressDialog(this,R.style.MySpinnerThemeDark);
+        tickets_list.clear();
+        final ProgressDialog progress_dialog = new ProgressDialog(this, R.style.MySpinnerThemeDark);
         progress_dialog.setCancelable(false);
         progress_dialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         progress_dialog.show();
-
-        tickets_list.clear();
         DatabaseReference ref = fb_database.getReference().child("tickets");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
@@ -142,17 +144,17 @@ public class home extends AppCompatActivity implements View.OnClickListener{
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                update_list();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                update_list();
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                update_list();
             }
 
             @Override
