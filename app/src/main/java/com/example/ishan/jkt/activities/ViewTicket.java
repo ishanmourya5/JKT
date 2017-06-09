@@ -90,7 +90,6 @@ public class ViewTicket extends AppCompatActivity implements View.OnClickListene
                         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                         String date_time = df.format(c.getTime());
                         ref.child("update_date_time").setValue(date_time);
-                        finish();
                     }
                 });
                 alert_dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -114,7 +113,6 @@ public class ViewTicket extends AppCompatActivity implements View.OnClickListene
                         i.putExtra("heading",extras.getString("heading",null));
                         i.putExtra("key", extras.getString("key",null));
                         startActivity(i);
-                        finish();
                     }
                 });
                 alert_dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

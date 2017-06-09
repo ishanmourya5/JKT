@@ -90,11 +90,11 @@ public class home extends AppCompatActivity implements View.OnClickListener{
             Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             profile_image.setImageBitmap(decodedImage);
         }
+        tickets_list.clear();
         update_list();
     }
     public void update_list(){
 
-        tickets_list.clear();
         final ProgressDialog progress_dialog = new ProgressDialog(this, R.style.MySpinnerThemeDark);
         progress_dialog.setCancelable(false);
         progress_dialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
@@ -149,12 +149,12 @@ public class home extends AppCompatActivity implements View.OnClickListener{
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                update_list();
+
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                update_list();
+
             }
 
             @Override
